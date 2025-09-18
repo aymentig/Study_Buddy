@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>StudyBuddy • Rocket Your Learning</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#0b0f19">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
+  <style>
+    :root{--bg:#0b0f19;--fg:#e7ecff;--muted:#9aa7c7;--card:rgba(255,255,255,.07);--border:rgba(255,255,255,.12);--accent:#82b1ff;--accent2:#9b8cff;--ring:rgba(130,177,255,.35)}
+    *{box-sizing:border-box}html,body{height:100%}body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial;color:var(--fg);background:radial-gradient(1200px 600px at 10% -10%,#1c2340 0%,rgba(28,35,64,0) 60%),radial-gradient(1000px 600px at 90% -20%,#1b0d3a 0%,rgba(27,13,58,0) 60%),var(--bg)}
+    .bg-grid{position:fixed;inset:0;pointer-events:none;background-image:linear-gradient(to right,rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,.05) 1px,transparent 1px);background-size:34px 34px;mask-image:radial-gradient(1000px 500px at 50% -10%,#000 35%,transparent 70%)}
+    header.hero{max-width:1100px;margin:56px auto 24px;padding:0 20px;text-align:center}
+    .logo{display:flex;gap:10px;align-items:center;justify-content:center;margin-bottom:10px}.logo .brand{font-weight:800;letter-spacing:.2px;opacity:.95}
+    h1{font-size:clamp(28px,6vw,54px);margin:10px 0 8px;line-height:1.05}
+    h1 .grad{background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
+    .sub{color:var(--muted);margin:0 auto 26px;max-width:720px}
+    .toolbar{max-width:900px;margin:14px auto 0;padding:10px 14px;display:grid;grid-template-columns:1fr auto auto;gap:10px;border:1px solid var(--border);background:var(--card);border-radius:14px;backdrop-filter:blur(10px)}
+    .tool{display:flex;align-items:center;gap:10px}.tool.right{justify-content:flex-end}
+    #nq{width:160px}#nq-val{min-width:2ch;text-align:right;color:var(--fg);opacity:.85}
+    .drop{margin:20px auto 0;padding:28px 20px;max-width:760px;border:1px solid var(--border);background:var(--card);border-radius:16px;backdrop-filter:blur(10px);display:flex;flex-direction:column;align-items:center;gap:10px;transition:border-color .2s,box-shadow .2s,transform .2s}
+    .drop:hover{border-color:rgba(255,255,255,.2);box-shadow:0 10px 35px rgba(0,0,0,.35),0 0 0 8px var(--ring);transform:translateY(-1px)}
+    .btn{display:inline-block;padding:10px 16px;border-radius:12px;background:linear-gradient(180deg,rgba(255,255,255,.18),rgba(255,255,255,.08));border:1px solid var(--border);cursor:pointer;user-select:none;color:var(--fg)}
+    .hint{color:var(--muted);font-size:13px}
+    .progress{width:100%;max-width:520px;height:10px;background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:999px;position:relative;margin-top:6px}
+    .progress .bar{position:absolute;left:0;top:0;bottom:0;width:0%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:999px;transition:width .25s}
+    .progress .pct{position:absolute;right:-52px;top:-6px;font-size:12px;color:var(--muted)}
+    main.grid{max-width:1100px;margin:28px auto 80px;padding:0 20px;display:grid;grid-template-columns:1fr;gap:18px}
+    @media (min-width:900px){main.grid{grid-template-columns:1fr 1fr}}
+    .card{border:1px solid var(--border);background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.04));border-radius:16px;padding:18px 18px 20px;backdrop-filter:blur(8px);box-shadow:0 8px 28px rgba(0,0,0,.3)}
+    .card h2{margin:0 0 12px;letter-spacing:.2px}.card p,.card li{color:#e9edff}.card ul{margin:0;padding-left:18px}
+    .card .qa{border-top:1px dashed var(--border);padding-top:10px;margin-top:10px}.card .answers{margin-top:8px;color:var(--muted);font-size:14px}
+    .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;text-align:center}
+    .stats div{padding:12px;border:1px solid var(--border);border-radius:12px;background:rgba(255,255,255,.05)}.stats strong{display:block;font-size:18px;margin-bottom:4px}
+    .skeleton{min-height:120px;background:linear-gradient(90deg,rgba(255,255,255,.06) 25%,rgba(255,255,255,.12) 37%,rgba(255,255,255,.06) 63%);background-size:400% 100%;animation:shimmer 1.2s infinite}
+    @keyframes shimmer{0%{background-position:100% 0}100%{background-position:0 0}}
+    footer{max-width:1100px;margin:0 auto 40px;padding:0 20px;color:var(--muted);text-align:center}
+  </style>
+</head>
+<body>
+  <div class="bg-grid"></div>
+  <header class="hero">
+    <div class="logo"><span class="rocket">🚀</span><span class="book">📖</span><span class="brand">StudyBuddy</span></div>
+    <h1><span class="grad">Rocket-launch</span> your study sessions.</h1>
+    <p class="sub">Drop a PDF, DOCX, or TXT — get a crisp summary, key points, practice questions, and a mini study plan.</p>
+
+    <div class="toolbar">
+      <div class="tool">
+        <label for="nq">Questions</label>
+        <input id="nq" type="range" min="1" max="20" value="5">
+        <span id="nq-val">5</span>
+      </div>
+      <div class="tool"><button id="regen" class="btn" disabled>Regenerate</button></div>
+      <div class="tool right">
+        <button id="copy-json" class="btn" disabled>Copy JSON</button>
+        <button id="download-json" class="btn" disabled>Download</button>
+      </div>
+    </div>
+
+    <div id="drop" class="drop">
+      <p><strong>Drag & drop</strong> your file here, or</p>
+      <label class="btn"><input id="file" type="file" accept=".pdf,.docx,.txt" hidden />Choose a file</label>
+      <div id="hint" class="hint">Max 20 MB • .pdf .docx .txt</div>
+      <div id="progress" class="progress" hidden><div class="bar"></div><span class="pct">0%</span></div>
+    </div>
+  </header>
+
+  <main class="grid">
+    <section class="card stats" id="stats-card" hidden>
+      <div><strong id="stat-file">—</strong><span>File</span></div>
+      <div><strong id="stat-kp">—</strong><span>Key Points</span></div>
+      <div><strong id="stat-q">—</strong><span>Questions</span></div>
+      <div><strong id="stat-plan">—</strong><span>Plan Items</span></div>
+    </section>
+
+    <section class="card skeleton" id="sk-1" hidden></section>
+    <section class="card skeleton" id="sk-2" hidden></section>
+
+    <section class="card" id="summary-card" hidden>
+      <h2>Summary</h2>
+      <p id="summary"></p>
+    </section>
+
+    <section class="card" id="keypoints-card" hidden>
+      <h2>Key Points</h2>
+      <ul id="keypoints"></ul>
+    </section>
+
+    <section class="card" id="quiz-card" hidden>
+      <h2>Practice Questions</h2>
+      <div id="quiz"></div>
+    </section>
+
+    <section class="card" id="plan-card" hidden>
+      <h2>Study Plan</h2>
+      <ul id="plan"></ul>
+    </section>
+  </main>
+
+  <footer><span>Built for you by StudyBuddy — Aymen edition 🚀</span></footer>
+
+  <script>
+    if ('serviceWorker' in navigator) { navigator.serviceWorker.register('/sw.js').catch(()=>{}); }
+
+    const drop = document.getElementById('drop');
+    const fileInput = document.getElementById('file');
+    const progress = document.getElementById('progress');
+    const bar = progress.querySelector('.bar');
+    const pct = progress.querySelector('.pct');
+
+    const summaryCard = document.getElementById('summary-card');
+    const keypointsCard = document.getElementById('keypoints-card');
+    const quizCard = document.getElementById('quiz-card');
+    const planCard = document.getElementById('plan-card');
+    const statsCard = document.getElementById('stats-card');
+    const sk1 = document.getElementById('sk-1');
+    const sk2 = document.getElementById('sk-2');
+
+    const summaryEl = document.getElementById('summary');
+    const kpsEl = document.getElementById('keypoints');
+    const quizEl = document.getElementById('quiz');
+    const planEl = document.getElementById('plan');
+
+    const nq = document.getElementById('nq');
+    const nqVal = document.getElementById('nq-val');
+    const regenBtn = document.getElementById('regen');
+    const copyBtn = document.getElementById('copy-json');
+    const dlBtn = document.getElementById('download-json');
+
+    const statFile = document.getElementById('stat-file');
+    const statKP = document.getElementById('stat-kp');
+    const statQ = document.getElementById('stat-q');
+    const statPlan = document.getElementById('stat-plan');
+
+    let lastFileBlob = null, lastResult = null;
+
+    nq.addEventListener('input', () => { nqVal.textContent = nq.value; });
+
+    function setProgress(v){ progress.hidden=false; bar.style.width=`${v}%`; pct.textContent=`${v}%`; }
+    function finishProgress(){ setProgress(100); setTimeout(()=>{progress.hidden=true; setProgress(0)},600); }
+    function preventDefaults(e){ e.preventDefault(); e.stopPropagation(); }
+    ['dragenter','dragover','dragleave','drop'].forEach(ev=>drop.addEventListener(ev,preventDefaults));
+    ['dragenter','dragover'].forEach(ev=>drop.addEventListener(ev,()=>drop.classList.add('hover')));
+    ['dragleave','drop'].forEach(ev=>drop.addEventListener(ev,()=>drop.classList.remove('hover')));
+    drop.addEventListener('drop', e => { const f=e.dataTransfer?.files?.[0]; if(f) upload(f); });
+    fileInput.addEventListener('change', e => { const f=e.target.files[0]; if(f) upload(f); });
+
+    regenBtn.addEventListener('click', async () => { if (!lastFileBlob) return; await upload(lastFileBlob, true); });
+    copyBtn.addEventListener('click', async () => { if(!lastResult) return; const t=JSON.stringify(lastResult,null,2); await navigator.clipboard.writeText(t); copyBtn.textContent='Copied!'; setTimeout(()=>copyBtn.textContent='Copy JSON',1200); });
+    dlBtn.addEventListener('click', () => { if(!lastResult) return; const b=new Blob([JSON.stringify(lastResult,null,2)],{type:'application/json'}); const a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download=`studybuddy_${(lastResult.fileName||'result').replace(/\s+/g,'_')}.json`; a.click(); URL.revokeObjectURL(a.href); });
+
+    function showSkeletons(show){ sk1.hidden=sk2.hidden=!show; }
+    function resetCards(){ [summaryCard,keypointsCard,quizCard,planCard].forEach(el=>el.hidden=true); statsCard.hidden=true; quizEl.innerHTML=''; kpsEl.innerHTML=''; planEl.innerHTML=''; summaryEl.textContent=''; }
+
+    async function upload(file, isRegeneration=false){
+      if (!isRegeneration){ lastFileBlob=file; }
+      const ok = ['pdf','docx','txt'].some(ext=>file.name.toLowerCase().endsWith('.'+ext));
+      if(!ok){ alert('Please upload a PDF, DOCX, or TXT.'); return; }
+
+      let fake=0; setProgress(fake); const tick=setInterval(()=>{ fake=Math.min(fake+7,85); setProgress(fake); },120);
+      resetCards(); showSkeletons(true); regenBtn.disabled=copyBtn.disabled=dlBtn.disabled=true;
+
+      try{
+        const fd = new FormData();
+        fd.append('file', file);
+        fd.append('n', nq.value);
+
+        const res = await fetch('/api/analyze', { method:'POST', body: fd });
+        const json = await res.json();
+
+        clearInterval(tick); finishProgress(); showSkeletons(false);
+
+        if(!res.ok){ alert(json.error || 'Something went wrong.'); return; }
+        lastResult = json; renderResults(json);
+      }catch(err){
+        clearInterval(tick); finishProgress(); showSkeletons(false);
+        alert('Network error: ' + err.message);
+      }
+    }
+
+    function renderResults(data){
+      statFile.textContent = data.fileName || '—';
+      statKP.textContent = (data.keyPoints || []).length;
+      statQ.textContent = (data.quizQuestions || []).length;
+      statPlan.textContent = (data.studyGuide || []).length;
+      statsCard.hidden = false;
+
+      summaryEl.textContent = data.summary || 'No summary generated.'; summaryCard.hidden=false;
+
+      (data.keyPoints||[]).forEach(k=>{ const li=document.createElement('li'); li.textContent=k; kpsEl.appendChild(li); });
+      keypointsCard.hidden = false;
+
+      (data.quizQuestions||[]).forEach((q,i)=>{
+        const wrap=document.createElement('div'); wrap.className='qa';
+        const title=document.createElement('div'); title.innerHTML=`<strong>Q${i+1}.</strong> ${q.question}`; wrap.appendChild(title);
+        const list=document.createElement('ul'); list.style.margin='8px 0 0 0'; list.style.paddingLeft='18px';
+        (q.options||[]).forEach((op,j)=>{ const li=document.createElement('li'); li.textContent=String.fromCharCode(65+j)+'. '+op; list.appendChild(li); });
+        wrap.appendChild(list);
+        const ans=document.createElement('div'); ans.className='answers';
+        const btn=document.createElement('button'); btn.textContent='Reveal answer'; btn.className='btn';
+        const answerText=document.createElement('span'); answerText.style.marginLeft='8px'; answerText.style.display='none';
+        const correctIdx=typeof q.correct==='number'?q.correct:-1; answerText.textContent=correctIdx>=0?`Correct: ${String.fromCharCode(65+correctIdx)}`:'No answer provided';
+        btn.onclick=()=>{ answerText.style.display=answerText.style.display==='none'?'inline':'none'; };
+        ans.appendChild(btn); ans.appendChild(answerText); wrap.appendChild(ans);
+        quizEl.appendChild(wrap);
+      });
+      quizCard.hidden = false;
+
+      (data.studyGuide||[]).forEach(p=>{ const li=document.createElement('li'); li.textContent=p; planEl.appendChild(li); });
+      planCard.hidden = false;
+
+      regenBtn.disabled = copyBtn.disabled = dlBtn.disabled = false;
+      summaryCard.scrollIntoView({ behavior:'smooth', block:'start' });
+    }
+  </script>
+</body>
+</html>
