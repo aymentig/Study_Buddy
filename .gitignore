@@ -1,12 +1,7 @@
-# Python
 .venv/
+.env
 __pycache__/
 *.pyc
-
-# Secrets
-.env
-
-# OS/editor junk
 .DS_Store
 .vscode/
 .idea/
